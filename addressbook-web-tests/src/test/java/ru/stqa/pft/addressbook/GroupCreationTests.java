@@ -22,46 +22,46 @@ public class GroupCreationTests {
 
     private void login(String username, String password) {
         wd.get("http://localhost/addressbook/");
-        submitGroupCreation("user");
+        wd.findElement(By.name("user")).click();
         wd.findElement(By.name("user")).clear();
         wd.findElement(By.name("user")).sendKeys(username);
-        submitGroupCreation("pass");
+        wd.findElement(By.name("pass")).click();
         wd.findElement(By.name("pass")).clear();
         wd.findElement(By.name("pass")).sendKeys(password);
         wd.findElement(By.xpath("//form[@id='LoginForm']/input[3]")).click();
     }
 
     @Test
-    public void testGroupCreation() {
+    public void GroupCreationTests() {
 
-        gotoGroupPaga();
+        gotoGroup();
         initGroupCreation();
-        fillGroupForm(new GroupData("test1", "test2", "test3"));
-        submitGroupCreation("submit");
-        gotoGroupPaga();
+        fillGroupForm(new GroupData("test2", "test3", "test4"));
+        submitGroupCreation();
+        gotoGroup();
     }
 
-    private void submitGroupCreation(String submit) {
-        wd.findElement(By.name(submit)).click();
+    public void submitGroupCreation() {
+        wd.findElement(By.name("submit")).click();
     }
 
     private void fillGroupForm(GroupData groupData) {
-        submitGroupCreation("group_name");
+        wd.findElement(By.name("group_name")).click();
         wd.findElement(By.name("group_name")).clear();
         wd.findElement(By.name("group_name")).sendKeys(groupData.getName());
-        submitGroupCreation("group_header");
+        wd.findElement(By.name("group_header")).click();
         wd.findElement(By.name("group_header")).clear();
         wd.findElement(By.name("group_header")).sendKeys(groupData.getHeader());
-        submitGroupCreation("group_footer");
+        wd.findElement(By.name("group_footer")).click();
         wd.findElement(By.name("group_footer")).clear();
         wd.findElement(By.name("group_footer")).sendKeys(groupData.getFooter());
     }
 
     private void initGroupCreation() {
-        submitGroupCreation("new");
+        wd.findElement(By.name("new")).click();
     }
 
-    private void gotoGroupPaga() {
+    private void gotoGroup() {
         wd.findElement(By.linkText("groups")).click();
     }
 
