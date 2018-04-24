@@ -19,12 +19,24 @@ public class ContactHelper extends HelperBase  {
       type(By.name("lastname"),contactData.getLastname());
       type(By.name("address"),contactData.getAddress());
       type(By.name("home"),contactData.getPhon());
-      type(By.name("home"),contactData.getEmail());
-      wd.findElement(By.name("email")).click();
-      wd.findElement(By.name("email")).clear();
+      type(By.name("email"),contactData.getEmail());
         }
 
   public void gotoAddContact() {
       click(By.linkText("add new"));
   }
+  public void gotoContacts() {
+    click(By.linkText("home"));
+  }
+  public void selectContact() {
+    click(By.name("selected[]"));
+  }
+  public void initContactModification() {click(By.xpath("//table[@id='maintable']/tbody/tr[2]/td[8]/a/img"));  }
+  public void deleteSelectedContatcs() {
+    click(By.name("delete"));
+  }
+  public void contactModification() {click(By.xpath("//div[@id='content']/form[1]/input[22]"));}
+  public void deleteContact() {click(By.xpath("//div[@id='content']/form[2]/div[2]/input"));}
+  public void closedDelete() {wd.switchTo().alert().accept();}
+
 }

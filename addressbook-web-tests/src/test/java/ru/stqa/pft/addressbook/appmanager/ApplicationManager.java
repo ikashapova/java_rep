@@ -2,6 +2,7 @@ package ru.stqa.pft.addressbook.appmanager;
 
 import org.openqa.selenium.firefox.FirefoxDriver;
 import org.openqa.selenium.firefox.FirefoxOptions;
+import org.openqa.selenium.remote.BrowserType;
 
 import java.util.concurrent.TimeUnit;
 
@@ -15,6 +16,10 @@ public class ApplicationManager {
 
 
   public void init() {
+    String browser = BrowserType.FIREFOX;
+    if (browser == BrowserType.FIREFOX){
+
+    }
     wd = new FirefoxDriver(new FirefoxOptions().setLegacy(true));
     wd.manage().timeouts().implicitlyWait(60, TimeUnit.SECONDS);
     groupHelper = new GroupHelper(wd);
