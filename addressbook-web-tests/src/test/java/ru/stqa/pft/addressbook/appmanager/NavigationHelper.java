@@ -10,10 +10,7 @@ public class NavigationHelper extends HelperBase {
     super(wd);
   }
 
-  public void gotoGroup() {
-      click(By.linkText("groups"));
-  }
+  public void gotoGroup() {click(By.linkText("groups"));}
 
-  public void gotoContacts() {click(By.xpath("//div/div[4]/div/i/a[2]"));
-  }
+  public void gotoContacts() {click(By.xpath("//div/div[4]/div/i/a[2]"));}
 }
