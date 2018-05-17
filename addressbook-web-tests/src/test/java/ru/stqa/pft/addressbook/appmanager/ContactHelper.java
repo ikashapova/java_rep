@@ -23,6 +23,8 @@ public class ContactHelper extends HelperBase  {
       type(By.name("email"),contactData.getEmail());
         }
 
+
+
   public void gotoAddContact() {
       click(By.linkText("add new"));
   }
@@ -41,13 +43,12 @@ public class ContactHelper extends HelperBase  {
   public void closedDelete() {wd.switchTo().alert().accept();}
 
   public void createContact(ContactData contactData) {
+    gotoAddContact();
     fillContactForm(new ContactData("First Name", "Last Name", "Russia", "79999999999999999", "232@kl.ru"));
     submitContactCreation();
     gotoContacts();
   }
 
-  public boolean isThereAContact() {
-    return isElementPresent (By.name("selected[]"));
-  }
+  public boolean isThereAContact() {return isElementPresent (By.name("selected[]"));}
 }
 
