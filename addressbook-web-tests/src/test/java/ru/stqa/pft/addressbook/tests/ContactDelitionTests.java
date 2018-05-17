@@ -9,12 +9,11 @@ public class ContactDelitionTests extends TestBase {
   public void testContactDelition(){
     app.getContactHelper().gotoContacts();
     if (! app.getContactHelper().isThereAContact()){
-      app.getContactHelper().createContact(new ContactData("First Name", "Last Name", "Russia", "79999999999999999", "232@kl.ru");
-    }
+      app.getContactHelper().createContact(new ContactData("First Name", "Last Name", "Russia", "79999999999999999", "232@kl.ru")); }
     app.getContactHelper().selectContact();
     app.getContactHelper().deleteContact();
     app.getContactHelper().closedDelete();
     }
 
   }
-}
+
