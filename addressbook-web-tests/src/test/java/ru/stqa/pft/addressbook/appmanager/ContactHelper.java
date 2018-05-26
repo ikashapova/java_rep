@@ -3,12 +3,12 @@ package ru.stqa.pft.addressbook.appmanager;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
-import org.openqa.selenium.firefox.FirefoxDriver;
 import ru.stqa.pft.addressbook.model.ContactData;
-import ru.stqa.pft.addressbook.model.GroupData;
 
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 public class ContactHelper extends HelperBase {
 
@@ -33,7 +33,7 @@ public class ContactHelper extends HelperBase {
     click(By.linkText("add new"));
   }
 
-  public void gotoContacts() {click(By.linkText("home"));
+  public void contacts() {click(By.linkText("home"));
   }
 
   public void selectContact(int index) {
@@ -60,16 +60,41 @@ public class ContactHelper extends HelperBase {
 
   public void createContact(ContactData contactData) {
     gotoAddContact();
-    fillContactForm(new ContactData("First Name", "Last Name", "Russia", "79999999999999999", "232@kl.ru"));
+    fillContactForm(new ContactData().withFirstname("First Name"). withLastname("Last Name").withAddress("Russia").withPhon("79999999999999999").withEmail("232@kl.ru"));
     submitContactCreation();
-    gotoContacts();
+    contacts();
   }
+
+  public void modifyContact(ContactData contact) {
+    initContactModification();
+    fillContactForm(contact);
+    contactModification();
+    contacts();
+  }
+  public void selectContactById(int id) {
+    wd.findElement(By.cssSelector("input[value='"+ id + "']")).click(); }
+
 
   public boolean isThereAContact() {return isElementPresent(By.name("selected[]"));  }
 
   public int getContactCount() {return wd.findElements (By.name("selected[]")).size(); }
+  public void deleteContact(int index) {
+    selectContact(index);
+    deleteContact();
+    closedDelete();
+    contacts();
+  }
 
-  public List<ContactData> getContactList() {List<ContactData> contacts = new ArrayList<ContactData>();
+  public void deleteContact(ContactData contact) {
+    selectContactById(contact.getId());
+    deleteContact();
+    closedDelete();
+    contacts();
+  }
+
+
+
+  public List<ContactData> listContact() {List<ContactData> contacts = new ArrayList<ContactData>();
     List <WebElement> rows = wd.findElements(By.name("entry")); //найти строки с информацией о контактах
     for (WebElement element : rows){
       List<WebElement> cells = element.findElements(By.tagName("td"));
@@ -77,11 +102,28 @@ public class ContactHelper extends HelperBase {
       cells.get(1);
       String First_name = cells.get(2).getText();
       String Last_name = cells.get(1).getText();
-      ContactData contact = new ContactData(First_name, Last_name , null, null, null);
+      ContactData contact = new ContactData().withFirstname("First name").withLastname("Last name");
       contacts.add(contact); }
     return contacts;
 
   }
-}
 
+
+  public Set<ContactData> all(){
+    Set<ContactData> contacts = new HashSet<ContactData>();
+  List <WebElement> rows = wd.findElements(By.name("entry")); //найти строки с информацией о контактах
+    for (WebElement element : rows){
+      List<WebElement> cells = element.findElements(By.tagName("td"));
+      cells.get(2);
+      cells.get(1);
+      String First_name = cells.get(2).getText();
+      String Last_name = cells.get(1).getText();
+      int id = Integer.parseInt (element.findElement(By.tagName("input")).getAttribute("value"));
+      contacts.add(new ContactData().withId(id).withFirstname(First_name).withLastname(Last_name)); }
+
+     return contacts;
+
+  }
+
+ }
 

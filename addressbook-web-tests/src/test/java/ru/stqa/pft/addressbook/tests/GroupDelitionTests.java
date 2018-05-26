@@ -1,36 +1,35 @@
 package ru.stqa.pft.addressbook.tests;
 
 import org.testng.Assert;
+import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 import ru.stqa.pft.addressbook.model.GroupData;
 
 import java.util.Comparator;
 import java.util.List;
+import java.util.Set;
 
 public class GroupDelitionTests extends TestBase {
 
+    @BeforeMethod
+    public void ensurePreconditions() {
+        app.goTo().groupPage();
+        if (app.group().all().size()==0) {
+            app.group().createGroup(new GroupData().withName("test3"));
+        }
+    }
 
     @Test
     public void testGroupDelition() {
-        app.getNavigationHelper().gotoGroup();
-        if (! app.getGroupHelper().isThereAGroup()){
-            app.getGroupHelper().createGroup(new GroupData("test2", null, "test4"));
-        }
-        List<GroupData> before = app.getGroupHelper().getGroupList();
-        GroupData group = new GroupData("test3", null, "test4");
-        app.getGroupHelper().selectGroup(0);
-        app.getGroupHelper().deleteSelectedGroups();
-        app.getNavigationHelper().gotoGroup();
-        List<GroupData> after = app.getGroupHelper().getGroupList();
+        app.goTo().groupPage();
+        Set<GroupData> before = app.group().all();
+        GroupData deletedGroup = before.iterator().next();
+        GroupData group = new GroupData().withName("test3");
+        app.group().deleteGroup(deletedGroup);
+        Set<GroupData> after = app.group().all();
         Assert.assertEquals(after.size(),before.size()-1);
-        before.remove(before.size()-1);
-        for(int i=0; i<after.size();i++){
-           // Assert.assertEquals(before.get(i), after.get(i)); //сравнение списков
-            before.add(group);
-            Comparator<? super GroupData> byId = (g1, g2) -> Integer.compare(g1.getId(), g2.getId());
-            before.sort(byId);
-            after.sort(byId);
-            Assert.assertEquals(before, after);
+        before.remove(deletedGroup);
+        Assert.assertEquals(before, after);
 
 
         }
@@ -38,4 +37,5 @@ public class GroupDelitionTests extends TestBase {
     }
 
 
-}
+
+

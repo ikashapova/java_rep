@@ -1,39 +1,38 @@
 package ru.stqa.pft.addressbook.tests;
 
 import org.testng.Assert;
+import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 import ru.stqa.pft.addressbook.model.ContactData;
-import ru.stqa.pft.addressbook.model.GroupData;
 
 import java.util.Comparator;
 import java.util.List;
+import java.util.Set;
 
 public class ContactDelitionTests extends TestBase {
+  @BeforeMethod
+  public void ensurePreconditions() {
+
+    app.contact().contacts();
+    if (app.group().all().size()==0)
+    { app.contact().createContact(new ContactData().withFirstname("First Name").withLastname("Last Name").withAddress("Russia").withPhon("79999999999999999").withEmail("232@kl.ru")); }app.contact().initContactModification();
+  }
+
   @Test
-  public void testContactDelition(){
-    app.getContactHelper().gotoContacts();
-    if (! app.getContactHelper().isThereAContact()){
-      app.getContactHelper().createContact(new ContactData("First Name", null, "Russia", "79999999999999999", "232@kl.ru")); }
-    List<ContactData> before = app.getContactHelper().getContactList();
-    ContactData contact = new ContactData("First Name", "Last Name", "Franch", "79999999999999999", "232@kl.ru");
-    app.getContactHelper().selectContact(0);
-    app.getContactHelper().deleteContact();
-    app.getContactHelper().closedDelete();
-    app.getContactHelper().gotoContacts();
-    List<ContactData> after = app.getContactHelper().getContactList();
+  public void testContactDelition (){
+    app.contact().contacts();
+    Set<ContactData> before = app.contact().all();
+    ContactData deletedContact = before.iterator().next();
+    app.contact().deleteContact(deletedContact);
+    Set<ContactData> after = app.contact().all();
     Assert.assertEquals(after.size(), before.size()-1);
-    before.remove(before.size()-1);
-    for(int i=0; i<after.size();i++){
-      Assert.assertEquals(before.get(i), after.get(i));
-      before.add(contact);
-      Comparator<? super ContactData> byId = (g1, g2) -> Integer.compare(g1.getId(), g2.getId());
-      before.sort(byId);
-      after.sort(byId);
-      Assert.assertEquals(before, after);
+    before.remove(deletedContact);
+    Assert.assertEquals(before, after);
 
     }
-
   }
 
-  }
+
+
+
 
