@@ -22,15 +22,14 @@ public class ContactCreationTests extends TestBase {
     public void testsContactCreation() {
 
         app.contact().contacts();
-       /* Contacts before = app.contact().all();
-        ContactData contact = new ContactData().withFirstname("First Name").withLastname("Last Name").withAddress("Russia").withPhon("79999999999999999").withEmail("232@kl.ru");
-        app.contact().createContact(contact);
+        app.contact().initContactModification();
+        app.contact().fillContactForm(new ContactData().withFirstname("test_name").withLastname("test_name2").withAddress("address2"));
+        app.contact().submitContactCreation();
         app.contact().contacts();
-        Contacts after = app.contact().all();
-        assertThat(after.size(), equalTo(before.size()+1));
-        assertThat(after, equalTo(before.withAdded(contact.withId(after.stream().mapToInt((g)->g.getId()).max().getAsInt()))));
 
-*/
+
+
+
 
 
 

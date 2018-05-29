@@ -44,8 +44,8 @@ public class ContactHelper extends HelperBase {
     click(By.xpath("//table[@id='maintable']/tbody/tr[2]/td[8]/a/img"));
   }
 
-  //public void initContactModificationById(int id) {
-    //wd.findElement(By.cssSelector("input[value='"+ id + "']")).click(); }
+  public void initContactModificationById(int id) {
+    wd.findElement(By.cssSelector("input[value='"+ id + "']")).click(); }
 
   public void deleteSelectedContatcs() {
     click(By.name("delete"));
@@ -149,7 +149,7 @@ public class ContactHelper extends HelperBase {
 
     }
 
-    public void initContactModificationById(int id){
+    /*public void initContactModificationById(int id){
 
     //wd.findElement(By.xpath(String.format("//input[@value='%s']/../.../td[8]/a",id))).click();
 
@@ -158,7 +158,7 @@ public class ContactHelper extends HelperBase {
     List<WebElement> cells = row.findElements(By.tagName("td"));
     cells.get(7).findElement(By.tagName("a")).click();
 
-    }
+    }*/
 
   public ContactData infoFormEditFormEmail(ContactData contact) {
     initContactModificationByEmail(contact.getId());
