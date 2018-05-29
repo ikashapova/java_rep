@@ -9,11 +9,44 @@ public class ContactData {
   private  String address;
   private  String phon;
   private  String email;
+  private  String homePhone;
+  private  String mobilePhone;
+  private  String workPhone;
+  private  String allPhones;
 
-  public ContactData withId(int id) {
-    this.id = id;
-    return this;
+  public String getFirstname() {
+    return firstname;
   }
+  public String getLastname() {
+    return lastname;
+  }
+  public String getAddress() { return address; }
+  public String getPhon() {
+    return phon;
+  }
+  public String getEmail() {
+    return email;
+  }
+  public String getHomePhone() {
+    return homePhone;
+  }
+  public String getMobilePhone() {
+    return mobilePhone;
+  }
+  public String getWorkPhone() {
+    return workPhone;
+  }
+  public int  getId() {return id; }
+  public String getAllPhones() {
+    return allPhones;
+  }
+
+
+  public ContactData withAllPhones(String allPhones) {
+    this.allPhones = allPhones;
+    return this; }
+
+
 
   @Override
   public boolean equals(Object o) {
@@ -33,28 +66,35 @@ public class ContactData {
 
   public ContactData withFirstname(String firstname) {
     this.firstname = firstname;
-    return this;
-  }
+    return this; }
 
   public ContactData withLastname(String lastname) {
     this.lastname = lastname;
-    return this;
-  }
+    return this;}
 
   public ContactData withAddress(String address) {
     this.address = address;
-    return this;
-  }
+    return this;}
 
   public ContactData withPhon(String phon) {
     this.phon = phon;
-    return this;
-  }
+    return this;}
 
+  public ContactData withId(int id) {
+    this.id = id;
+    return this;}
   public ContactData withEmail(String email) {
     this.email = email;
     return this;}
-
+    public ContactData withHomePhone(String homePhone) {
+    this.homePhone = homePhone;
+    return this;}
+  public ContactData withMobilePhone(String mobilePhone) {
+    this.mobilePhone = mobilePhone;
+    return this;}
+  public ContactData withWorkPhone(String workPhone) {
+    this.workPhone = workPhone;
+    return this;}
 
 
   @Override
@@ -65,28 +105,6 @@ public class ContactData {
             '}';
   }
 
-  public String getFirstname() {
-    return firstname;
-  }
-
-  public String getLastname() {
-    return lastname;
-  }
-
-  public String getAddress() {
-    return address;
-  }
-
-  public String getPhon() {
-    return phon;
-  }
-
-  public String getEmail() {
-    return email;
-  }
-
-
-  public int getId() {return id; }
 
 /*  public void setId(int max) {
   }*/

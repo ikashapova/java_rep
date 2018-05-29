@@ -4,7 +4,6 @@ import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import ru.stqa.pft.addressbook.model.ContactData;
-import ru.stqa.pft.addressbook.model.Contacts;
 
 import java.util.ArrayList;
 import java.util.HashSet;
@@ -44,6 +43,9 @@ public class ContactHelper extends HelperBase {
   public void initContactModification() {
     click(By.xpath("//table[@id='maintable']/tbody/tr[2]/td[8]/a/img"));
   }
+
+  //public void initContactModificationById(int id) {
+    //wd.findElement(By.cssSelector("input[value='"+ id + "']")).click(); }
 
   public void deleteSelectedContatcs() {
     click(By.name("delete"));
@@ -110,21 +112,88 @@ public class ContactHelper extends HelperBase {
   }
 
 
-  public Contacts all(){
-    Contacts contacts = new Contacts();
-  List <WebElement> rows = wd.findElements(By.name("entry")); //найти строки с информацией о контактах
-    for (WebElement element : rows){
-      List<WebElement> cells = element.findElements(By.tagName("td"));
-      cells.get(2);
-      cells.get(1);
+  public Set<ContactData> all() {
+    Set<ContactData> contacts = new HashSet<ContactData>();
+    List<WebElement> rows = wd.findElements(By.name("entry")); //найти строки с информацией о контактах
+    for (WebElement row : rows) {
+      List<WebElement> cells = row.findElements(By.tagName("td"));
+      int id = Integer.parseInt(row.findElement(By.tagName("input")).getAttribute("value"));
       String First_name = cells.get(2).getText();
       String Last_name = cells.get(1).getText();
-      int id = Integer.parseInt (element.findElement(By.tagName("input")).getAttribute("value"));
-      contacts.add(new ContactData().withId(id).withFirstname(First_name).withLastname(Last_name)); }
+      String allPhones = cells.get(5).getText();
+      contacts.add(new ContactData().withId(id).withFirstname(First_name).withLastname(Last_name).withAllPhones(allPhones));
+    }
 
      return contacts;
 
   }
 
+  public ContactData infoFormEditForm(ContactData contact) {
+    initContactModificationById(contact.getId());
+    String firstname = wd.findElement(By.name("firstname")).getAttribute("value");
+    String lastname = wd.findElement(By.name("lastname")).getAttribute("value");
+    String home = wd.findElement(By.name("home")).getAttribute("value");
+    String mobile = wd.findElement(By.name("mobile")).getAttribute("value");
+    String work = wd.findElement(By.name("work")).getAttribute("value");
+    String email = wd.findElement(By.name("email")).getAttribute("value");
+    String address = wd.findElement(By.name("address")).getAttribute("value");
+    wd.navigate().back();
+    return new ContactData().withId(contact.getId())
+            .withFirstname(firstname)
+            .withLastname(lastname)
+            .withHomePhone(home)
+            .withMobilePhone(mobile)
+            .withWorkPhone(work)
+            .withAddress(address)
+            .withEmail(email);
+
+    }
+
+    public void initContactModificationById(int id){
+
+    //wd.findElement(By.xpath(String.format("//input[@value='%s']/../.../td[8]/a",id))).click();
+
+    WebElement checkbox = wd.findElement(By.cssSelector(String.format("input[value='%s']", id)));
+    WebElement row = checkbox.findElement(By.xpath("./../.."));
+    List<WebElement> cells = row.findElements(By.tagName("td"));
+    cells.get(7).findElement(By.tagName("a")).click();
+
+    }
+
+  public ContactData infoFormEditFormEmail(ContactData contact) {
+    initContactModificationByEmail(contact.getId());
+    String email = wd.findElement(By.name("email")).getAttribute("value");
+    wd.navigate().back();
+    return new ContactData().withId(contact.getId())
+            .withEmail(email);
+
+  }
+
+  public void initContactModificationByEmail (int id){
+    WebElement checkbox = wd.findElement(By.cssSelector(String.format("input[value='%s']", id)));
+    WebElement row = checkbox.findElement(By.xpath("./../.."));
+    List<WebElement> cells = row.findElements(By.tagName("td"));
+    cells.get(7).findElement(By.tagName("a")).click();
+
  }
+
+
+  public ContactData infoFormEditFormAddress(ContactData contact) {
+    initContactModificationByEmail(contact.getId());
+    String email = wd.findElement(By.name("address")).getAttribute("value");
+    wd.navigate().back();
+    return new ContactData().withId(contact.getId())
+            .withEmail(email);
+
+  }
+
+  public void initContactModificationByAddress (int id){
+    WebElement checkbox = wd.findElement(By.cssSelector(String.format("input[value='%s']", id)));
+    WebElement row = checkbox.findElement(By.xpath("./../.."));
+    List<WebElement> cells = row.findElements(By.tagName("td"));
+    cells.get(7).findElement(By.tagName("a")).click();
+
+  }
+
+  }
 
